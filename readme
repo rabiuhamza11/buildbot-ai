@@ -1,0 +1,817 @@
+# 📘 HARZbuild - AI Construction Planning Platform
+
+HARZbuild is a modern, AI-powered web application that generates professional construction plans, technical specifications, and project documents specifically for the Nigerian market. Designed for homeowners, contractors, developers, and real estate professionals, HARZbuild simplifies construction planning by leveraging artificial intelligence to create accurate, standards-compliant documentation.
+
+**Built by:** [HARZ Construction](https://harzco.business) | **Location:** Yelwan Shendam, Plateau State, Nigeria
+
+---
+
+## ✨ Features
+
+✅ **AI-Powered Plan Generation** – Generate accurate construction documents from natural language descriptions  
+✅ **Voice Input Support** – Speak your requirements using speech-to-text technology  
+✅ **Multiple Project Types** – Residential homes, commercial buildings, schools, hospitals, industrial facilities  
+✅ **Complete Technical Specs** – Dimensions, materials, construction methods, plumbing & electrical systems  
+✅ **Nigerian Compliance** – Follows NBC (Nigerian Building Code) and local authority regulations  
+✅ **Multiple Output Formats** – Download as PDF or editable text files  
+✅ **Tiered Pricing** – Free, Basic, and Professional plans for every budget  
+✅ **Mobile Responsive** – Optimized for phones, tablets, and desktop computers  
+✅ **Secure Payments** – Card, bank transfer, mobile money, USSD support  
+✅ **Project Management** – Save, edit, and manage multiple projects  
+✅ **Admin Dashboard** – Monitor usage, manage users, view transactions
+
+---
+
+## 📁 Project Structure
+
+```
+harzbuild/
+├── public/                    # Frontend assets
+│   ├── index.html            # Main application page
+│   ├── app.js                # Core app logic and state management
+│   ├── styles.css            # Application styling (Tailwind CSS)
+│   ├── admin/
+│   │   ├── index.html        # Admin dashboard
+│   │   ├── login.html        # Admin authentication
+│   │   └── admin.js          # Admin panel logic
+│   ├── pages/
+│   │   ├── terms.html        # Terms of Service
+│   │   ├── privacy.html      # Privacy Policy
+│   │   ├── refund.html       # Refund Policy
+│   │   └── about.html        # About HARZbuild
+│   ├── images/               # Brand assets and icons
+│   └── assets/               # Fonts, SVGs, etc.
+│
+├── src/                       # Backend source code
+│   ├── server.js             # Express server & routes
+│   ├── config/
+│   │   ├── database.js       # Database configuration
+│   │   ├── payment.js        # Payment provider setup
+│   │   └── ai.js             # AI service configuration
+│   ├── routes/
+│   │   ├── auth.js           # User authentication endpoints
+│   │   ├── plans.js          # Plan generation endpoints
+│   │   ├── payments.js       # Payment processing endpoints
+│   │   └── admin.js          # Admin endpoints
+│   ├── models/
+│   │   ├── User.js           # User schema
+│   │   ├── Plan.js           # Construction plan schema
+│   │   └── Payment.js        # Payment transaction schema
+│   ├── middleware/
+│   │   ├── auth.js           # Authentication middleware
+│   │   └── errorHandler.js   # Error handling
+│   └── utils/
+│       ├── aiClient.js       # AI API wrapper (OpenAI/Google AI)
+│       ├── paymentClient.js  # Payment provider wrapper
+│       └── logger.js         # Logging utility
+│
+├── .env.example              # Environment variables template
+├── .gitignore               # Git ignore rules
+├── package.json             # Project dependencies
+├── package-lock.json        # Dependency lock file
+└── README.md                # This file
+```
+
+---
+
+## 🚀 Installation & Setup
+
+### 1. Prerequisites
+
+- **Node.js** v18+ and npm v9+ ([Download](https://nodejs.org/))
+- **Git** for version control
+- **AI API Key** (OpenAI GPT-4, Google Gemini, or Claude API)
+- **Payment Provider Account** (Paystack, Flutterwave, or local bank integration)
+- **Database** (MongoDB Atlas free tier or local MongoDB)
+
+### 2. Clone the Repository
+
+```bash
+git clone https://github.com/rabiuhamza11/harzbuild.git
+cd harzbuild
+```
+
+### 3. Install Dependencies
+
+```bash
+npm install
+```
+
+This installs all required packages from `package.json`:
+- Express.js (server framework)
+- MongoDB/Mongoose (database)
+- OpenAI SDK (AI integration)
+- Stripe/Paystack SDK (payments)
+- JWT (authentication)
+- CORS and security middleware
+
+### 4. Configure Environment Variables
+
+Create a `.env` file in the root directory. Use `.env.example` as a template:
+
+```bash
+cp .env.example .env
+```
+
+Then edit `.env` with your actual values:
+
+```env
+# Server Configuration
+NODE_ENV=development
+PORT=3000
+HOST=localhost
+
+# Database
+MONGODB_URI=mongodb://localhost:27017/harzbuild
+# Or MongoDB Atlas:
+# MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/harzbuild?retryWrites=true&w=majority
+
+# AI Service (Choose one)
+AI_PROVIDER=openai  # Options: openai, google, claude
+AI_API_KEY=sk-proj-xxxxxxxxxxxx
+
+# Payment Provider
+PAYMENT_PROVIDER=paystack  # Options: paystack, flutterwave, stripe
+PAYSTACK_SECRET_KEY=sk_live_xxxxxxxxxxxx
+PAYSTACK_PUBLIC_KEY=pk_live_xxxxxxxxxxxx
+
+# Authentication
+JWT_SECRET=your_super_secret_jwt_key_change_this_in_production
+SESSION_SECRET=your_session_secret_key
+
+# Admin Credentials (Change in production!)
+ADMIN_EMAIL=admin@buildbot.ng
+ADMIN_PASSWORD=$2b$10$hashedpasswordhere
+
+# Email Service (for notifications)
+EMAIL_SERVICE=gmail
+EMAIL_USER=notifications@harzbuild.ng
+EMAIL_PASSWORD=your_app_password
+
+# App Settings
+APP_NAME=HARZbuild
+APP_URL=http://localhost:3000
+PAYMENT_CALLBACK_URL=http://localhost:3000/api/payments/callback
+
+# Logging
+LOG_LEVEL=debug  # debug, info, warn, error
+```
+
+### 5. Set Up Database
+
+**Option A: Local MongoDB**
+```bash
+# Install MongoDB Community Edition
+# macOS
+brew tap mongodb/brew
+brew install mongodb-community
+
+# Start MongoDB
+brew services start mongodb-community
+
+# Verify connection
+mongosh
+```
+
+**Option B: MongoDB Atlas (Recommended for production)**
+1. Go to [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
+2. Create free cluster
+3. Get connection string
+4. Add to `.env` as `MONGODB_URI`
+
+Initialize database schema:
+```bash
+npm run seed:db
+```
+
+### 6. Set Up AI Service
+
+**Using OpenAI (Recommended)**
+1. Go to [OpenAI Platform](https://platform.openai.com/)
+2. Create API key
+3. Add to `.env` as `AI_API_KEY`
+
+**Using Google Gemini**
+1. Go to [Google AI Studio](https://makersuite.google.com/app/apikey)
+2. Get API key
+3. Set `AI_PROVIDER=google` in `.env`
+
+**Using Anthropic Claude**
+1. Go to [Anthropic Console](https://console.anthropic.com/)
+2. Get API key
+3. Set `AI_PROVIDER=claude` in `.env`
+
+### 7. Set Up Payment Provider
+
+**Using Paystack (Best for Nigeria)**
+1. Sign up at [Paystack](https://paystack.com)
+2. Get Secret Key from Dashboard → Settings
+3. Add to `.env` as `PAYSTACK_SECRET_KEY`
+
+**Using Flutterwave (Alternative)**
+1. Sign up at [Flutterwave](https://flutterwave.com)
+2. Get API keys
+3. Update payment config in `src/config/payment.js`
+
+### 8. Run the Application
+
+**Development Mode (with auto-reload)**
+```bash
+npm run dev
+```
+
+Runs on `http://localhost:3000` with nodemon watching for file changes.
+
+**Production Mode**
+```bash
+npm run build
+npm start
+```
+
+Optimized build with minified assets.
+
+**Run Tests**
+```bash
+npm test
+```
+
+---
+
+## 📖 How to Use
+
+### For End Users
+
+1. **Visit the application** at `http://localhost:3000` or your deployed domain
+2. **Describe your project:**
+   - Project type (residential, commercial, etc.)
+   - Dimensions and number of rooms
+   - Special features (pool, parking, etc.)
+   - Location and budget
+3. **Choose input method:**
+   - Type in text area
+   - Use microphone for voice input (requires browser permission)
+4. **Click "Generate Plan"**
+5. **Review generated document**
+6. **Choose plan tier and payment method**
+7. **Download as PDF or text**
+8. **Save to account** for future edits
+
+### For Developers
+
+**API Endpoints Overview:**
+
+```
+Authentication:
+  POST   /api/auth/register      - Create account
+  POST   /api/auth/login         - User login
+  POST   /api/auth/logout        - User logout
+  GET    /api/auth/verify        - Verify JWT token
+
+Plans:
+  POST   /api/plans/generate     - Generate construction plan
+  GET    /api/plans              - List user's plans
+  GET    /api/plans/:id          - Get specific plan
+  PUT    /api/plans/:id          - Update plan
+  DELETE /api/plans/:id          - Delete plan
+  GET    /api/plans/:id/download - Download plan (PDF/TXT)
+
+Payments:
+  POST   /api/payments/create    - Initiate payment
+  POST   /api/payments/verify    - Verify Paystack transaction
+  GET    /api/payments/status/:id - Check payment status
+
+Admin:
+  GET    /api/admin/dashboard    - Dashboard stats
+  GET    /api/admin/users        - List all users
+  GET    /api/admin/payments     - Transaction history
+  PUT    /api/admin/settings     - Update app settings
+```
+
+---
+
+## 💳 Pricing Plans
+
+| Plan | Price | Features |
+|------|-------|----------|
+| **Free** | ₦0/month | • 1 plan per month • Basic text export • Standard templates |
+| **Basic** | ₦15,000/month | • Unlimited plans • PDF + text export • Save & edit projects • Email support |
+| **Professional** | ₦45,000/month | • All Basic features • Advanced design options • Cost estimation • Priority support • Custom modifications • API access |
+
+---
+
+## 💳 Payment Methods Supported
+
+- **Debit/Credit Cards** — Visa, Mastercard, Verve, American Express
+- **Bank Transfers** — Direct account-to-account (UBA, GTBank, Zenith, etc.)
+- **Mobile Money** — Paga, OPay, PalmPay, Moniepoint
+- **USSD Codes** — *123#1# for Airtel Money, *901*1# for MTN Mobile Money
+- **Cryptocurrency** — Bitcoin, Ethereum (via Coinbase Commerce)
+
+All payments processed securely via [Paystack](https://paystack.com) with PCI DSS compliance.
+
+---
+
+## 📋 Admin Panel
+
+**Access:** `http://localhost:3000/admin`
+
+**Default Credentials** (Change immediately in production):
+```
+Email: admin@buildbot.ng
+Password: [Set in .env ADMIN_PASSWORD]
+```
+
+**Admin Features:**
+- View real-time dashboard statistics
+- Manage user accounts and permissions
+- Monitor plan generation activity
+- View payment transactions and revenue
+- Update pricing and plan features
+- Configure AI model parameters
+- Send notifications to users
+- Export reports (CSV, PDF)
+- Manage support tickets
+- Access system logs
+
+---
+
+## 🛠️ Technologies Used
+
+| Category | Technology |
+|----------|-----------|
+| **Frontend** | HTML5, CSS3, JavaScript (ES6+) |
+| **Styling** | Tailwind CSS, Font Awesome Icons |
+| **Backend** | Node.js, Express.js |
+| **Database** | MongoDB, Mongoose ODM |
+| **Authentication** | JWT, bcryptjs |
+| **AI** | OpenAI GPT-4, Google Gemini, Claude |
+| **Payments** | Paystack, Flutterwave, Stripe |
+| **PDF Generation** | PDFKit, html2pdf |
+| **Voice Input** | Web Speech API |
+| **Deployment** | Node.js hosting (Render, Railway, Heroku) |
+| **Version Control** | Git, GitHub |
+| **Logging** | Winston, Morgan |
+
+---
+
+## 📝 Customization Guide
+
+### Change Brand Colors
+
+Edit `src/config/branding.js`:
+
+```javascript
+export const BRAND_COLORS = {
+  primary: '#1E2952',      // HARZ navy
+  secondary: '#D4AF37',    // HARZ gold
+  accent: '#4B6268',       // Accent gray
+  success: '#10B981',      // Green
+  warning: '#F59E0B',      // Amber
+  error: '#EF4444'         // Red
+};
+```
+
+Update CSS variables in `public/styles.css`:
+```css
+:root {
+  --color-primary: #1E2952;
+  --color-secondary: #D4AF37;
+  --color-accent: #4B6268;
+}
+```
+
+### Modify Pricing Plans
+
+Edit `src/config/pricing.js`:
+
+```javascript
+export const PRICING_PLANS = [
+  {
+    id: 'free',
+    name: 'Free',
+    price: 0,
+    currency: 'NGN',
+    features: ['1 plan/month', 'Text export']
+  },
+  {
+    id: 'basic',
+    name: 'Basic',
+    price: 15000,
+    currency: 'NGN',
+    features: ['Unlimited plans', 'PDF export', 'Save projects']
+  }
+];
+```
+
+### Add New Project Templates
+
+Create `src/templates/projectTypes.js`:
+
+```javascript
+export const PROJECT_TEMPLATES = {
+  residential: {
+    name: 'Residential House',
+    description: 'Single/multi-family dwelling',
+    defaultFields: ['rooms', 'bathrooms', 'garage', 'garden']
+  },
+  commercial: {
+    name: 'Commercial Building',
+    description: 'Office, retail, warehouse',
+    defaultFields: ['floors', 'occupancy', 'parking', 'loading_dock']
+  },
+  // Add more templates...
+};
+```
+
+### Customize AI Prompts
+
+Edit `src/config/ai.js`:
+
+```javascript
+export const AI_SYSTEM_PROMPT = `You are an expert Nigerian construction consultant...
+Follow NBC (Nigerian Building Code) standards...
+Provide detailed technical specifications...`;
+
+export const AI_MODEL_CONFIG = {
+  model: 'gpt-4-turbo',
+  temperature: 0.7,
+  max_tokens: 2000,
+  top_p: 0.9
+};
+```
+
+---
+
+## 🔐 Database Schema
+
+### User Collection
+```javascript
+{
+  _id: ObjectId,
+  email: String (unique),
+  password: String (hashed),
+  fullName: String,
+  phone: String,
+  accountType: String (free|basic|professional),
+  createdAt: Date,
+  updatedAt: Date,
+  lastLogin: Date,
+  isActive: Boolean,
+  preferences: {
+    language: String,
+    currency: String,
+    notifications: Boolean
+  }
+}
+```
+
+### Plan Collection
+```javascript
+{
+  _id: ObjectId,
+  userId: ObjectId (ref: User),
+  title: String,
+  description: String,
+  projectType: String,
+  specifications: {
+    length: Number,
+    width: Number,
+    height: Number,
+    rooms: Number,
+    bathrooms: Number,
+    features: [String]
+  },
+  aiGenerated: {
+    prompt: String,
+    response: String,
+    model: String,
+    timestamp: Date
+  },
+  materials: [
+    {
+      name: String,
+      quantity: Number,
+      unit: String,
+      unitCost: Number,
+      totalCost: Number
+    }
+  ],
+  estimatedCost: Number,
+  status: String (draft|completed|archived),
+  createdAt: Date,
+  updatedAt: Date
+}
+```
+
+### Payment Collection
+```javascript
+{
+  _id: ObjectId,
+  userId: ObjectId (ref: User),
+  amount: Number,
+  currency: String,
+  status: String (pending|completed|failed),
+  planId: ObjectId (ref: Plan),
+  paymentMethod: String (card|transfer|mobile_money|ussd),
+  transactionRef: String,
+  paymentGateway: String (paystack|flutterwave),
+  response: Object,
+  createdAt: Date,
+  updatedAt: Date
+}
+```
+
+---
+
+## 🔌 API Documentation
+
+### Generate Construction Plan
+
+**Endpoint:**
+```
+POST /api/plans/generate
+Content-Type: application/json
+Authorization: Bearer <JWT_TOKEN>
+```
+
+**Request Body:**
+```json
+{
+  "title": "3-Bedroom Apartment",
+  "projectType": "residential",
+  "description": "Modern 3-bedroom apartment in Lagos with open-plan living",
+  "specifications": {
+    "rooms": 3,
+    "bathrooms": 2,
+    "length": 50,
+    "width": 40,
+    "features": ["garage", "balcony", "garden"]
+  },
+  "location": "Lekki, Lagos"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "plan": {
+    "_id": "507f1f77bcf86cd799439011",
+    "title": "3-Bedroom Apartment",
+    "generatedContent": "...",
+    "estimatedCost": 8500000,
+    "materials": [...],
+    "status": "completed",
+    "createdAt": "2024-06-27T10:30:00Z"
+  }
+}
+```
+
+### Create Payment
+
+**Endpoint:**
+```
+POST /api/payments/create
+Content-Type: application/json
+Authorization: Bearer <JWT_TOKEN>
+```
+
+**Request Body:**
+```json
+{
+  "planId": "507f1f77bcf86cd799439011",
+  "amount": 15000,
+  "plan": "basic",
+  "email": "user@example.com"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "authorization_url": "https://checkout.paystack.com/...",
+  "access_code": "1r51ov47oy",
+  "reference": "ogwuolfo78"
+}
+```
+
+---
+
+## 🐛 Troubleshooting
+
+### Database Connection Issues
+
+**Error:** `MongoServerError: connect ECONNREFUSED`
+
+**Solution:**
+```bash
+# Check if MongoDB is running
+mongosh
+
+# If not running, start it:
+brew services start mongodb-community  # macOS
+sudo systemctl start mongod            # Linux
+```
+
+### AI Generation Timeout
+
+**Error:** `Request timeout after 30 seconds`
+
+**Solution:**
+1. Check API key validity
+2. Increase timeout in `src/server.js`:
+```javascript
+const AI_TIMEOUT = 60000; // 60 seconds
+```
+3. Check if using appropriate model (GPT-4 is slower than GPT-3.5)
+
+### Payment Verification Failed
+
+**Error:** `Invalid Paystack reference`
+
+**Solution:**
+1. Verify `PAYSTACK_SECRET_KEY` in `.env`
+2. Check network logs for failed webhook
+3. Manually verify payment at Paystack Dashboard
+4. Ensure callback URL is whitelisted in Paystack settings
+
+### Authentication Token Expired
+
+**Error:** `jwt expired`
+
+**Solution:**
+1. Token lifespan set in `src/config/auth.js` (default: 24h)
+2. Implement refresh token mechanism
+3. Clear browser cookies and login again
+
+### File Upload Size Limit
+
+**Error:** `PayloadTooLargeError: request entity too large`
+
+**Solution:**
+```javascript
+// In src/server.js
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
+```
+
+---
+
+## 📚 Complete API Reference
+
+See [`docs/API.md`](docs/API.md) for full endpoint documentation with examples.
+
+---
+
+## 🚀 Deployment
+
+### Deploy to Render (Recommended)
+
+1. Push code to GitHub
+2. Connect GitHub to [Render](https://render.com)
+3. Set environment variables in Render dashboard
+4. Database: Use MongoDB Atlas
+5. Deploy!
+
+### Deploy to Railway
+
+```bash
+# Install Railway CLI
+npm install -g @railway/cli
+
+# Login
+railway login
+
+# Initialize
+railway init
+
+# Deploy
+railway up
+```
+
+### Deploy to Heroku
+
+```bash
+heroku login
+heroku create harzbuild-app
+git push heroku main
+heroku config:set NODE_ENV=production
+```
+
+---
+
+## 📧 Support & Contact
+
+**Email:** [harzco.business@gmail.com](mailto:harzco.business@gmail.com)  
+**WhatsApp:** +234 802 868 7857  
+**Phone:** +234 802 868 7857  
+**Office:** 115 Along Sabongida Road, Yelwan Shendam, Plateau State, Nigeria  
+**Website:** [harzco.business](https://harzco.business)
+
+**Response Times:**
+- Free plan: 48 hours
+- Basic plan: 24 hours
+- Professional plan: 4 hours (business hours)
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License**. See [`LICENSE`](LICENSE) file for details.
+
+You are free to:
+- ✅ Use commercially
+- ✅ Modify the code
+- ✅ Distribute copies
+- ❌ Remove license notices
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! Please follow these steps:
+
+1. Fork the repository
+2. Create feature branch: `git checkout -b feature/amazing-feature`
+3. Commit changes: `git commit -m 'Add amazing feature'`
+4. Push to branch: `git push origin feature/amazing-feature`
+5. Open Pull Request
+
+**Code Standards:**
+- Use ESLint configuration (`.eslintrc.json`)
+- Follow Prettier formatting
+- Add tests for new features
+- Update documentation
+
+```bash
+# Before submitting
+npm run lint
+npm run format
+npm test
+```
+
+---
+
+## 📢 Security
+
+### Best Practices Implemented
+
+✅ Password hashing with bcrypt  
+✅ JWT token authentication  
+✅ HTTPS enforced in production  
+✅ SQL injection prevention (using Mongoose)  
+✅ XSS protection via Content Security Policy  
+✅ CSRF token validation  
+✅ Rate limiting on payment endpoints  
+✅ PCI DSS compliance via Paystack  
+✅ Data encryption in transit  
+
+### Report Security Issues
+
+⚠️ **DO NOT** open public issues for security vulnerabilities
+
+Email security concerns to: [harzco.business@gmail.com](mailto:harzco.business@gmail.com)
+
+---
+
+## 📊 Project Status
+
+- **Current Version:** 1.0.0
+- **Last Updated:** June 27, 2026
+- **Status:** ✅ Production Ready
+- **Maintained By:** [HARZ Construction](https://github.com/rabiuhamza11)
+
+---
+
+## 🙏 Acknowledgments
+
+Built with:
+- OpenAI GPT-4 for AI generation
+- Paystack for secure payments
+- MongoDB for reliable data storage
+- Tailwind CSS for modern styling
+- The Nigerian construction community for requirements
+
+---
+
+## 📝 Important Notes
+
+- ✅ This is a complete, production-ready application
+- ✅ Suitable for immediate deployment and monetization
+- ⚠️ Change all default passwords and secrets in production
+- ⚠️ Set up SSL certificates for HTTPS
+- ⚠️ Configure backup strategy for MongoDB
+- ⚠️ Monitor AI API costs (especially with GPT-4)
+- ⚠️ Set up error logging and monitoring (Sentry recommended)
+- ✅ Follow NBC (Nigerian Building Code) standards
+- ✅ Comply with FIRS tax requirements for Nigerian businesses
+
+---
+
+**Happy Building! 🏗️**
+
+For updates, follow [@rabiuhamza11](https://github.com/rabiuhamza11) on GitHub
+
+**HARZbuild** — AI Construction Planning Platform  
+*Intelligent Specifications. Professional Plans.*
