@@ -1,227 +1,236 @@
-Here is a complete, professional README.md file for your BuildBot project. It includes all necessary information, setup instructions, features, and details about how to use and maintain the application.
- 
- 
- 
-📘 BuildBot - AI Construction Planning Platform
- 
-BuildBot is a modern web application that uses artificial intelligence to generate professional construction plans, technical specifications, and project documents. It is designed specifically for users in Nigeria, following local building standards and regulations, and is perfect for homeowners, contractors, developers, and real estate professionals.
- 
- 
- 
-✨ Features
- 
-✅ AI-Powered Plan Generation – Create accurate construction documents based on your project description
-✅ Voice Input Option – Speak your requirements instead of typing, for easier use
-✅ Multiple Plan Types – Suitable for residential houses, commercial buildings, schools, hospitals, and more
-✅ Complete Technical Details – Includes dimensions, materials, construction methods, plumbing & electrical systems
-✅ Local Standards Compliance – Follows Nigerian building codes and government regulations
-✅ Multiple Output Formats – Download documents as PDF or Text files
-✅ Simple Pricing Plans – Free, Basic, and Professional options to suit every budget
-✅ Responsive Design – Works perfectly on mobile phones, tablets, and desktop computers
-✅ Secure Payments – Supports card payments, bank transfers, mobile money, and USSD
-✅ Easy to Use Interface – Clean, modern design with simple navigation
- 
- 
- 
-📁 Project Structure
- 
-plaintext
-  
-buildbot/
-├── public/
-│   ├── index.html          # Main website page
-│   ├── app.js              # Application logic and functionality
+# 📘 BuildBot AI - AI Construction Planning Platform
+
+BuildBot AI is a modern, AI-powered web application that generates professional construction plans, technical specifications, and project documents specifically for the Nigerian market. Designed for homeowners, contractors, developers, and real estate professionals, BuildBot AI simplifies construction planning by leveraging artificial intelligence to create accurate, standards-compliant documentation.
+
+**Built by:** [HARZ Construction](https://harzco.business) | **Location:** Yelwan Shendam, Plateau State, Nigeria
+
+---
+
+## ✨ Features
+
+✅ **AI-Powered Plan Generation** – Generate accurate construction documents from natural language descriptions  
+✅ **Voice Input Support** – Speak your requirements using speech-to-text technology  
+✅ **Multiple Project Types** – Residential homes, commercial buildings, schools, hospitals, industrial facilities  
+✅ **Complete Technical Specs** – Dimensions, materials, construction methods, plumbing & electrical systems  
+✅ **Nigerian Compliance** – Follows NBC (Nigerian Building Code) and local authority regulations  
+✅ **Multiple Output Formats** – Download as PDF or editable text files  
+✅ **Tiered Pricing** – Free, Basic, and Professional plans for every budget  
+✅ **Mobile Responsive** – Optimized for phones, tablets, and desktop computers  
+✅ **Secure Payments** – Card, bank transfer, mobile money, USSD support  
+✅ **Project Management** – Save, edit, and manage multiple projects  
+✅ **Admin Dashboard** – Monitor usage, manage users, view transactions
+
+---
+
+## 📁 Project Structure
+
+```
+buildbot-ai/
+├── public/                    # Frontend assets
+│   ├── index.html            # Main application page
+│   ├── app.js                # Core app logic and state management
+│   ├── styles.css            # Application styling (Tailwind CSS)
 │   ├── admin/
-│   │   └── login.html      # Admin panel login page
-│   ├── terms.html         # Terms of Service page
-│   ├── privacy.html       # Privacy Policy page
-│   ├── refund.html        # Refund Policy page
-│   └── images/            # Store images and assets here
-├── server.js               # Backend server code (Node.js)
-├── package.json           # Project dependencies and configuration
-└── README.md              # This file
- 
- 
- 
- 
-🚀 Installation & Setup
- 
-Follow these steps to run the project on your local machine or web server:
- 
-1. Prerequisites
- 
-- Node.js (version 14 or higher) installed on your system
-- Basic knowledge of how to run web applications
- 
-2. Download or Clone the Project
- 
-bash
-  
-git clone https://github.com/your-username/buildbot.git
-cd buildbot
- 
- 
-3. Install Dependencies
- 
-bash
-  
+│   │   ├── index.html        # Admin dashboard
+│   │   ├── login.html        # Admin authentication
+│   │   └── admin.js          # Admin panel logic
+│   ├── pages/
+│   │   ├── terms.html        # Terms of Service
+│   │   ├── privacy.html      # Privacy Policy
+│   │   ├── refund.html       # Refund Policy
+│   │   └── about.html        # About BuildBot AI
+│   ├── images/               # Brand assets and icons
+│   └── assets/               # Fonts, SVGs, etc.
+│
+├── src/                       # Backend source code
+│   ├── server.js             # Express server & routes
+│   ├── config/
+│   │   ├── database.js       # Database configuration
+│   │   ├── payment.js        # Payment provider setup
+│   │   └── ai.js             # AI service configuration
+│   ├── routes/
+│   │   ├── auth.js           # User authentication endpoints
+│   │   ├── plans.js          # Plan generation endpoints
+│   │   ├── payments.js       # Payment processing endpoints
+│   │   └── admin.js          # Admin endpoints
+│   ├── models/
+│   │   ├── User.js           # User schema
+│   │   ├── Plan.js           # Construction plan schema
+│   │   └── Payment.js        # Payment transaction schema
+│   ├── middleware/
+│   │   ├── auth.js           # Authentication middleware
+│   │   └── errorHandler.js   # Error handling
+│   └── utils/
+│       ├── aiClient.js       # AI API wrapper (OpenAI/Google AI)
+│       ├── paymentClient.js  # Payment provider wrapper
+│       └── logger.js         # Logging utility
+│
+├── .env.example              # Environment variables template
+├── .gitignore               # Git ignore rules
+├── package.json             # Project dependencies
+├── package-lock.json        # Dependency lock file
+└── README.md                # This file
+```
+
+---
+
+## 🚀 Installation & Setup
+
+### 1. Prerequisites
+
+- **Node.js** v18+ and npm v9+ ([Download](https://nodejs.org/))
+- **Git** for version control
+- **AI API Key** (OpenAI GPT-4, Google Gemini, or Claude API)
+- **Payment Provider Account** (Paystack, Flutterwave, or local bank integration)
+- **Database** (MongoDB Atlas free tier or local MongoDB)
+
+### 2. Clone the Repository
+
+```bash
+git clone https://github.com/rabiuhamza11/buildbot-ai.git
+cd buildbot-ai
+```
+
+### 3. Install Dependencies
+
+```bash
 npm install
- 
- 
-4. Configure Settings
- 
-Open the files and update any configuration values if needed:
- 
-- In  public/app.js : Update the  API_BASE  URL to match your domain when hosting live
-- Update contact information, payment details, and business data to match your requirements
- 
-5. Run the Application
- 
-For Development
- 
-bash
-  
+```
+
+This installs all required packages from `package.json`:
+- Express.js (server framework)
+- MongoDB/Mongoose (database)
+- OpenAI SDK (AI integration)
+- Stripe/Paystack SDK (payments)
+- JWT (authentication)
+- CORS and security middleware
+
+### 4. Configure Environment Variables
+
+Create a `.env` file in the root directory. Use `.env.example` as a template:
+
+```bash
+cp .env.example .env
+```
+
+Then edit `.env` with your actual values:
+
+```env
+# Server Configuration
+NODE_ENV=development
+PORT=3000
+HOST=localhost
+
+# Database
+MONGODB_URI=mongodb://localhost:27017/buildbot-ai
+# Or MongoDB Atlas:
+# MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/buildbot-ai?retryWrites=true&w=majority
+
+# AI Service (Choose one)
+AI_PROVIDER=openai  # Options: openai, google, claude
+AI_API_KEY=sk-proj-xxxxxxxxxxxx
+
+# Payment Provider
+PAYMENT_PROVIDER=paystack  # Options: paystack, flutterwave, stripe
+PAYSTACK_SECRET_KEY=sk_live_xxxxxxxxxxxx
+PAYSTACK_PUBLIC_KEY=pk_live_xxxxxxxxxxxx
+
+# Authentication
+JWT_SECRET=your_super_secret_jwt_key_change_this_in_production
+SESSION_SECRET=your_session_secret_key
+
+# Admin Credentials (Change in production!)
+ADMIN_EMAIL=admin@buildbot.ng
+ADMIN_PASSWORD=$2b$10$hashedpasswordhere
+
+# Email Service (for notifications)
+EMAIL_SERVICE=gmail
+EMAIL_USER=notifications@buildbot-ai.ng
+EMAIL_PASSWORD=your_app_password
+
+# App Settings
+APP_NAME=BuildBot AI
+APP_URL=http://localhost:3000
+PAYMENT_CALLBACK_URL=http://localhost:3000/api/payments/callback
+
+# Logging
+LOG_LEVEL=debug  # debug, info, warn, error
+```
+
+### 5. Set Up Database
+
+**Option A: Local MongoDB**
+```bash
+# Install MongoDB Community Edition
+# macOS
+brew tap mongodb/brew
+brew install mongodb-community
+
+# Start MongoDB
+brew services start mongodb-community
+
+# Verify connection
+mongosh
+```
+
+**Option B: MongoDB Atlas (Recommended for production)**
+1. Go to [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
+2. Create free cluster
+3. Get connection string
+4. Add to `.env` as `MONGODB_URI`
+
+Initialize database schema:
+```bash
+npm run seed:db
+```
+
+### 6. Set Up AI Service
+
+**Using OpenAI (Recommended)**
+1. Go to [OpenAI Platform](https://platform.openai.com/)
+2. Create API key
+3. Add to `.env` as `AI_API_KEY`
+
+**Using Google Gemini**
+1. Go to [Google AI Studio](https://makersuite.google.com/app/apikey)
+2. Get API key
+3. Set `AI_PROVIDER=google` in `.env`
+
+**Using Anthropic Claude**
+1. Go to [Anthropic Console](https://console.anthropic.com/)
+2. Get API key
+3. Set `AI_PROVIDER=claude` in `.env`
+
+### 7. Set Up Payment Provider
+
+**Using Paystack (Best for Nigeria)**
+1. Sign up at [Paystack](https://paystack.com)
+2. Get Secret Key from Dashboard → Settings
+3. Add to `.env` as `PAYSTACK_SECRET_KEY`
+
+**Using Flutterwave (Alternative)**
+1. Sign up at [Flutterwave](https://flutterwave.com)
+2. Get API keys
+3. Update payment config in `src/config/payment.js`
+
+### 8. Run the Application
+
+**Development Mode (with auto-reload)**
+```bash
 npm run dev
- 
- 
-The application will run at  http://localhost:3000 
- 
-For Production
- 
-bash
-  
+```
+
+Runs on `http://localhost:3000` with nodemon watching for file changes.
+
+**Production Mode**
+```bash
+npm run build
 npm start
- 
- 
-The application will run in production mode, optimized for performance
- 
-6. Deploy to Hosting
- 
-You can deploy this project to any web hosting service that supports Node.js or static websites:
- 
-- Upload all files from the  public  folder to your hosting's public directory
-- Ensure the server is configured to run  server.js  for backend functionality
- 
- 
- 
-📖 How to Use
- 
-For Users
- 
-1. Open the website in your browser
-2. Describe your project in the text area:
-- What you want to build
-- Number of rooms, size, and features
-- Location and any special requirements
-3. Optional: Use the "Use Voice" button to speak your project details
-4. Click "Generate My Plan"
-5. Wait a few seconds while the AI creates your professional plan
-6. View the generated document and download it in your preferred format
- 
-Pricing Plans
- 
-Plan Price Features 
-Free ₦0 / month 1 plan per month, basic details, text download 
-Basic ₦15,000 / month Unlimited plans, full details, PDF + text download, save projects 
-Professional ₦45,000 / month All Basic features, advanced design, cost estimation, priority support, custom adjustments 
- 
- 
- 
-💳 Payment Methods
- 
-We accept all common payment methods in Nigeria:
- 
-- Credit / Debit Cards (Visa, Mastercard, Verve)
-- Bank Transfers
-- Mobile Money (Paga, Opay, Palmpay, etc.)
-- USSD Codes
- 
- 
- 
-📋 Admin Panel
- 
-Access the admin panel at  /admin/login.html  to:
- 
-- View and manage generated plans
-- Monitor user activity
-- Update pricing and plans
-- Manage content and settings
-- View payment transactions
- 
-Admin credentials can be configured in the server code.
- 
- 
- 
-🛠️ Technologies Used
- 
-Category Technologies 
-Frontend HTML5, CSS3, JavaScript (ES6+) 
-Framework/Libraries Tailwind CSS, Font Awesome 
-Server Node.js, Express.js 
-Design Approach Responsive Mobile-First Design 
-APIs Custom AI generation API (can be connected to OpenAI, Google AI, or local models) 
- 
- 
- 
-📝 Customization Guide
- 
-Changing Colors
- 
-Edit the color values in the  tailwind.config  section in  public/index.html :
- 
-javascript
-  
-colors: {
-    primary: '#009FB6',      // Main brand color
-    secondary: '#00363F',    // Dark color for text and headers
-    accent: '#4B6268',        // Secondary text color
-    light: '#F8FAFB',        // Light background color
-    // ... other colors
-}
- 
- 
-Adding New Features
- 
-1. Create new HTML sections in  index.html 
-2. Add corresponding styling using Tailwind CSS classes
-3. Write JavaScript functions in  app.js  to add functionality
-4. Update backend logic in  server.js  if needed
- 
- 
- 
-📄 Legal Information
- 
-- Terms of Service: See  terms.html  file
-- Privacy Policy: See  privacy.html  file
-- Refund Policy: See  refund.html  file
- 
-All documents comply with Nigerian laws and regulations regarding digital services and user data protection.
- 
- 
- 
-🤝 Support & Contact
- 
-If you need help, have questions, or want to report issues:
- 
-- 📧 Email: support@buildbot.ng
-- 📞 Phone / WhatsApp: +234 XXX XXX XXXX
-- 📍 Location: Lagos, Nigeria
- 
- 
- 
-📄 License
- 
-This project is licensed under the MIT License – you are free to use, modify, and distribute it as per the license terms.
- 
- 
- 
-📢 Important Notes
- 
-- This is a complete working application. You can start using it immediately after setup
-- For production use, make sure to secure the API endpoints and add proper authentication
-- The AI generation logic can be connected to any AI service you prefer (OpenAI, Google Gemini, etc.)
-- All content is designed specifically for the Nigerian market, with prices and information adjusted to local context
- 
- 
- 
-Would you like me to also create a short setup guide or a deployment checklist to help you get this project live quickly?# buildbot-ai
+```
+
+Optimized build with minified assets.
+
+**Run Tests**
+```bash
+npm test
+```
