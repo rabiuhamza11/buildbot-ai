@@ -19,7 +19,7 @@ router.post('/register', async (req, res, next) => {
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({ email, password: hashedPassword, fullName, phone, accountType: 'free' });
-    const token = jwt.sign({ userId: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '24h' });
+    const token = jwt.sign({ userId: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '7d' });
     res.status(201).json({ success: true, user: { id: user._id, email, fullName, accountType: 'free' }, token });
   } catch (err) { next(err); }
 });
@@ -32,7 +32,7 @@ router.post('/login', async (req, res, next) => {
     if (!user) return res.status(401).json({ success: false, error: 'Invalid credentials' });
     const valid = await bcrypt.compare(password, user.password);
     if (!valid) return res.status(401).json({ success: false, error: 'Invalid credentials' });
-    const token = jwt.sign({ userId: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '24h' });
+    const token = jwt.sign({ userId: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '7d' });
     res.json({ success: true, user: { id: user._id, email, fullName: user.fullName, accountType: user.accountType }, token });
   } catch (err) { next(err); }
 });
